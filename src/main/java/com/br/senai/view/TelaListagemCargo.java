@@ -49,13 +49,21 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	private JTextField edtDescricaoCurta;	
 	
 	private void atualizar(JTable tabela) {
-		List<Cargo> cargos = client.listarPor(edtDescricaoCurta.getText());		
-		CargoTableModel model = new CargoTableModel(cargos);
-		tabela.setModel(model);
-		TableColumnModel cm = tabela.getColumnModel();
-		cm.getColumn(0).setPreferredWidth(50);
-		cm.getColumn(1).setPreferredWidth(352);
-		tabela.updateUI();
+		try {
+			String teste = edtDescricaoCurta.getText();
+			if (teste == null || teste.isBlank()) {
+				throw new IllegalArgumentException("Nenhum filtro");
+			}
+			List<Cargo> cargos = client.listarPor(edtDescricaoCurta.getText());	
+			CargoTableModel model = new CargoTableModel(cargos);
+			tabela.setModel(model);
+			TableColumnModel cm = tabela.getColumnModel();
+			cm.getColumn(0).setPreferredWidth(50);
+			cm.getColumn(1).setPreferredWidth(352);
+			tabela.updateUI();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane, e.getMessage());
+		}
 	}
 	
 	private Cargo getCargoSelecionadoNa(JTable tabela) {
@@ -120,7 +128,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		btnListar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				editarRegistroDa(tabela);
+				atualizar(tabela);
 			}
 		});
 		
