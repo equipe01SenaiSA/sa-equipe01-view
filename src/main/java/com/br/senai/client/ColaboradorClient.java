@@ -11,11 +11,11 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.br.senai.dto.Cargo;
+import com.br.senai.dto.Colaborador;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class CargoClient {
+public class ColaboradorClient {
 
 	@Value("${endpoint}")
 	private String urlEndpoint;
@@ -23,54 +23,54 @@ public class CargoClient {
 	@Autowired
 	private ObjectMapper mapper;
 	
-	private final String resource = "/cargos";
+	private final String resource = "/colaboradores";
 	
 	@Autowired
 	private RestTemplateBuilder builder;
 	
-	public Cargo inserir(
-			Cargo novoCargo) {
+	public Colaborador inserir(
+			Colaborador novoColaborador) {
 		
 		RestTemplate httpClient = builder.build();
 		
 		URI uri = httpClient.postForLocation(
-				urlEndpoint + resource, novoCargo);
+				urlEndpoint + resource, novoColaborador);
 		
-		Cargo cargoSalvo =  httpClient
+		Colaborador colaboradorSalvo =  httpClient
 				.getForObject(urlEndpoint + uri.getPath(), 
-						Cargo.class);
+						Colaborador.class);
 		
-		return cargoSalvo;
+		return colaboradorSalvo;
 		
 	}
 	
-	public void alterar(Cargo cargoSalvo) {
+	public void alterar(Colaborador colaboradorSalvo) {
 		RestTemplate httpClient = builder.build();
 		httpClient.put(urlEndpoint + resource, 
-				cargoSalvo);
+				colaboradorSalvo);
 	}
 	
-	public void excluir(Cargo cargoSalvo) {
+	public void excluir(Colaborador colaboradorSalvo) {
 		RestTemplate httpClient = builder.build();
 		httpClient.delete(urlEndpoint + resource 
-				+ "/id/" + cargoSalvo.getId());
+				+ "/id/" + colaboradorSalvo.getId());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Cargo> listarPor(String descricaoCurta){
+	public List<Colaborador> listarPor(String nomeCompleto){
 		
 		RestTemplate httpClient = builder.build();
 		
 		List<LinkedHashMap<String, Object>> response = httpClient.getForObject(
-				urlEndpoint + resource + "/descricao-curta/" + descricaoCurta, List.class);
+				urlEndpoint + resource + "/nome-completo/" + nomeCompleto, List.class);
 		
-		List<Cargo> cargos = new ArrayList<Cargo>();
+		List<Colaborador> colaboradores = new ArrayList<Colaborador>();
 		
 		for (LinkedHashMap<String, Object> item : response) {
-			Cargo cargo = mapper.convertValue(item, Cargo.class);
-			cargos.add(cargo);
+			Colaborador colaborador = mapper.convertValue(item, Colaborador.class);
+			colaboradores.add(colaborador);
 		}
 		
-		return cargos;
+		return colaboradores;
 	}
 }
