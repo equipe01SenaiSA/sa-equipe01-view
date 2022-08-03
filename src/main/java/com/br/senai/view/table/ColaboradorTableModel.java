@@ -42,24 +42,24 @@ private static final long serialVersionUID = 1L;
 		throw new IllegalArgumentException("Indice inválido");
 	}
 	
-	public Cargo getPor(int rowIndex) {
-		return cargos.get(rowIndex);
+	public Colaborador getPor(int rowIndex) {
+		return colaboradores.get(rowIndex);
 	}
 	
 	public void removePor(int rowIndex) {
-		this.cargos.remove(rowIndex);
+		this.colaboradores.remove(rowIndex);
 	}
 	
-	public void remover(Cargo cargo) {
-		this.cargos.remove(cargo);
+	public void remover(Colaborador colaborador) {
+		this.colaboradores.remove(colaborador);
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (columnIndex == 0) {
-			return this.cargos.get(rowIndex).getId();
+			return this.colaboradores.get(rowIndex).getId();
 		}else if (columnIndex == 1) {			
-			return this.cargos.get(rowIndex).getDescricaoCurta();
+			return this.colaboradores.get(rowIndex).getNomeCompleto();
 		}
 		throw new IllegalArgumentException("Índice inválido");
 	}

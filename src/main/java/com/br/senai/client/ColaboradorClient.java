@@ -62,7 +62,7 @@ public class ColaboradorClient {
 		RestTemplate httpClient = builder.build();
 		
 		List<LinkedHashMap<String, Object>> response = httpClient.getForObject(
-				urlEndpoint + resource + "/nome-completo/" + nomeCompleto, List.class);
+				urlEndpoint + resource + "/nome/" + nomeCompleto, List.class);
 		
 		List<Colaborador> colaboradores = new ArrayList<Colaborador>();
 		
