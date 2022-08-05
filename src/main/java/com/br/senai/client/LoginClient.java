@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.br.senai.dto.Login;
+import com.br.senai.dto.Usuario;
 
 @Component
 public class LoginClient {
@@ -14,18 +15,18 @@ public class LoginClient {
 	@Value("${endpoint}")
 	private String urlEndpoint;
 
-	private final String resouce = "/login";
+	private final String resouce = "/usuarios";
 	
 	@Autowired
 	private RestTemplateBuilder builder;
 	
-	public Login efetuarPor(String login, String senha) {
+	public Usuario efetuarPor(String login, String senha) {
 		RestTemplate httpClient = builder.build();
-		Login loginEfetuado = httpClient.getForObject(urlEndpoint + resouce
-				+ "login = " + login
-				+ "senha = " + senha, Login.class); 
-		return loginEfetuado;
+		Usuario loginEfetuado = httpClient.getForObject(urlEndpoint + resouce
+				+ "?login=" + login
+				+ "&senha=" + senha, Usuario.class); 
 		
+		return loginEfetuado;	
 	}
 	
 }

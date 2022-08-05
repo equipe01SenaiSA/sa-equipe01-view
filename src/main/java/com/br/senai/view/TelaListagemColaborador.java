@@ -38,8 +38,8 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	@Autowired
 	private ColaboradorClient client;
 	
-	//@Autowired
-	//private TelaCadastroCargo cadastro;	
+	@Autowired
+	private TelaInsercaoColaborador telaInsercaoColaborador;	
 	
 	private JTextField edtNomeCompleto;	
 	
@@ -61,10 +61,10 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		}
 	}
 	
-	private Colaborador getColaboradorSelecionadoNa(JTable tabela) {
+	private Colaborador getColaboradorSelecionadoNa(JTable tabela, String msgErro) {
 		int linhaSelecionada = tabela.getSelectedRow();
 		if (linhaSelecionada < 0) {
-			throw new IllegalArgumentException("Nenhuma linha foi selecionada");
+			throw new IllegalArgumentException(msgErro);
 		}
 		ColaboradorTableModel model = (ColaboradorTableModel)tabela.getModel();
 		Colaborador itemSelecionado = model.getPor(linhaSelecionada);
@@ -74,7 +74,7 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	private void removerRegistroDa(JTable tabela) {
 		try {
 			
-			Colaborador colaboradorSelecionado = getColaboradorSelecionadoNa(tabela);
+			Colaborador colaboradorSelecionado = getColaboradorSelecionadoNa(tabela, "Selecione um registro na tabela para remoção.");
 			
 			int opcaoSelecionada = JOptionPane.showConfirmDialog(
 					contentPane, "Deseja realmente remover?", "Remoção", JOptionPane.YES_NO_OPTION);
@@ -92,8 +92,9 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	
 	private void editarRegistroDa(JTable tabela) {
 		try {		
-			Colaborador registroSelecionado = getColaboradorSelecionadoNa(tabela);
-			//this.cadastro.colocarEmEdicao(registroSelecionado);
+			Colaborador registroSelecionado = getColaboradorSelecionadoNa(tabela, "Selecione um registro na tabela para edição.");
+			setVisible(false);
+			telaInsercaoColaborador.setVisible(true);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, e.getMessage());
 		}
@@ -146,7 +147,8 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//cadastro.colocarEmInclusao();
+				setVisible(false);
+				telaInsercaoColaborador.setVisible(true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
