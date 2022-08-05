@@ -11,19 +11,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.br.senai.view.TelaPrincipalGestorForm;
-import com.br.senai.view.TelaListagemCargo;
-import com.br.senai.view.TelaListagemColaborador;
 import com.br.senai.view.TelaLogin;
+import com.br.senai.view.TelaPrincipalGestorForm;
 
 @SpringBootApplication
 public class InitApp {
-	
-	@Autowired
-	private TelaListagemCargo listagemCargo;
-	
-	@Autowired
-	private TelaListagemColaborador listagemColaborador;
 	
 	@Autowired
 	private TelaLogin login;
@@ -46,11 +38,8 @@ public class InitApp {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {							
-							//Apresentar tela principal aqui
-							//listagemCargo.setVisible(true);
-							//login.setVisible(true);
-							//listagemColaborador.setVisible(true);
-							telinha.setVisible(true);
+							login.setVisible(true);
+							//telinha.setVisible(true);
 							
 						} catch (Exception e) {							
 							JOptionPane.showMessageDialog(null, e.getMessage());

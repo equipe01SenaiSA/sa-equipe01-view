@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TelaInsercaoCargo extends JFrame {
 
 	private JPanel contentPane;

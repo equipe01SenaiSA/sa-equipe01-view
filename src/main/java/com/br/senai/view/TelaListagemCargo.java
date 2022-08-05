@@ -43,8 +43,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	@Autowired
 	private CargoClient client;
 	
-	//@Autowired
-	//private TelaCadastroCargo cadastro;	
+	@Autowired
+	private TelaInsercaoCargo telaInsercaoCargo;	
 	
 	private JTextField edtDescricaoCurta;	
 	
@@ -98,7 +98,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	private void editarRegistroDa(JTable tabela) {
 		try {		
 			Cargo registroSelecionado = getCargoSelecionadoNa(tabela);
-			//this.cadastro.colocarEmEdicao(registroSelecionado);
+			setVisible(false);
+			telaInsercaoCargo.setVisible(true);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, e.getMessage());
 		}
@@ -151,7 +152,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//cadastro.colocarEmInclusao();
+				setVisible(false);
+				telaInsercaoCargo.setVisible(true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

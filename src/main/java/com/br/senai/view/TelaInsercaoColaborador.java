@@ -1,6 +1,4 @@
 package com.br.senai.view;
-import java.awt.EventQueue;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,36 +8,24 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TelaInsercaoColaborador extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaInsercaoColaborador frame = new TelaInsercaoColaborador();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	private JTextField edtNomeCompleto;
+	private JTextField edtCPF;
+	private JTextField edtRG;
+	private JTextField edtNomeDaMae;
+	private JTextField edtLogin;
+	private JTextField edtSenha;
+	private JTextField edtDataDeAdmissao;
+	
 	public TelaInsercaoColaborador() {
 		setTitle("Gerenciar Colaborador(Acesso Gestor) (INSERCAO/EDICAO)-SA  SYSTEM 1.1");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,27 +35,27 @@ public class TelaInsercaoColaborador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Consultar");
-		btnNewButton.setBounds(287, 11, 117, 23);
-		contentPane.add(btnNewButton);
+		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.setBounds(287, 11, 117, 23);
+		contentPane.add(btnConsultar);
 		
-		JLabel lblNewLabel = new JLabel("Nome Completo\r\n");
-		lblNewLabel.setBounds(10, 49, 110, 23);
-		contentPane.add(lblNewLabel);
+		JLabel lblNomeCompleto = new JLabel("Nome Completo\r\n");
+		lblNomeCompleto.setBounds(10, 49, 110, 23);
+		contentPane.add(lblNomeCompleto);
 		
-		JLabel lblAtribuicoes = new JLabel("CPF");
-		lblAtribuicoes.setBounds(10, 103, 35, 23);
-		contentPane.add(lblAtribuicoes);
+		JLabel lblCPF = new JLabel("CPF");
+		lblCPF.setBounds(10, 103, 35, 23);
+		contentPane.add(lblCPF);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 83, 215, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		edtNomeCompleto = new JTextField();
+		edtNomeCompleto.setBounds(10, 83, 215, 20);
+		contentPane.add(edtNomeCompleto);
+		edtNomeCompleto.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(10, 137, 159, 23);
-		contentPane.add(textField_1);
+		edtCPF = new JTextField();
+		edtCPF.setColumns(10);
+		edtCPF.setBounds(10, 137, 159, 23);
+		contentPane.add(edtCPF);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(312, 381, 117, 23);
@@ -79,29 +65,29 @@ public class TelaInsercaoColaborador extends JFrame {
 		lblRg.setBounds(273, 103, 35, 23);
 		contentPane.add(lblRg);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(273, 137, 117, 23);
-		contentPane.add(textField_2);
+		edtRG = new JTextField();
+		edtRG.setColumns(10);
+		edtRG.setBounds(273, 137, 117, 23);
+		contentPane.add(edtRG);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(10, 195, 159, 23);
-		contentPane.add(textField_3);
+		edtNomeDaMae = new JTextField();
+		edtNomeDaMae.setColumns(10);
+		edtNomeDaMae.setBounds(10, 195, 159, 23);
+		contentPane.add(edtNomeDaMae);
 		
 		JLabel lblNomeDaMae = new JLabel("Nome da Mae\r\n");
 		lblNomeDaMae.setBounds(10, 171, 110, 23);
 		contentPane.add(lblNomeDaMae);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(10, 337, 159, 23);
-		contentPane.add(textField_4);
+		edtLogin = new JTextField();
+		edtLogin.setColumns(10);
+		edtLogin.setBounds(10, 337, 159, 23);
+		contentPane.add(edtLogin);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(287, 338, 159, 23);
-		contentPane.add(textField_5);
+		edtSenha = new JTextField();
+		edtSenha.setColumns(10);
+		edtSenha.setBounds(287, 338, 159, 23);
+		contentPane.add(edtSenha);
 		
 		JLabel lblLogin = new JLabel("Login\r\n");
 		lblLogin.setBounds(10, 315, 110, 23);
@@ -111,10 +97,10 @@ public class TelaInsercaoColaborador extends JFrame {
 		lblSenha.setBounds(287, 315, 110, 23);
 		contentPane.add(lblSenha);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(270, 207, 159, 23);
-		contentPane.add(textField_6);
+		edtDataDeAdmissao = new JTextField();
+		edtDataDeAdmissao.setColumns(10);
+		edtDataDeAdmissao.setBounds(270, 207, 159, 23);
+		contentPane.add(edtDataDeAdmissao);
 		
 		JLabel lblDataDeAdmissao = new JLabel("Data de Admissao");
 		lblDataDeAdmissao.setBounds(273, 171, 110, 23);
@@ -124,10 +110,10 @@ public class TelaInsercaoColaborador extends JFrame {
 		lblCargo.setBounds(10, 226, 110, 23);
 		contentPane.add(lblCargo);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Selecione"}));
-		comboBox.setToolTipText("");
-		comboBox.setBounds(10, 260, 159, 22);
-		contentPane.add(comboBox);
+		JComboBox cbCargo = new JComboBox();
+		cbCargo.setModel(new DefaultComboBoxModel(new String[] {"Selecione"}));
+		cbCargo.setToolTipText("");
+		cbCargo.setBounds(10, 260, 159, 22);
+		contentPane.add(cbCargo);
 	}
 }

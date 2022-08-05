@@ -46,7 +46,7 @@ public class TelaLogin extends JFrame {
 	private TelaPrincipalGestor telaPrincipalGestor;
 	
 	@Autowired
-	//private TelaPrincipalColaborador telaPrincipalColaborador;
+	private TelaPrincipalColaborador telaPrincipalColaborador;
 
 	/**
 	 * Create the frame.
@@ -92,7 +92,7 @@ public class TelaLogin extends JFrame {
 					}else if (loginEfetuado.getPerfil() == EnumPerfil.GESTOR) {
 						telaPrincipalGestor.setVisible(true);
 					}else if (loginEfetuado.getPerfil() == EnumPerfil.COLABORADOR) {
-						//telaPrincipalColaborador.setVisible(true);
+						telaPrincipalColaborador.setVisible(true);
 					}	
 
 				} catch (Exception e2) {
