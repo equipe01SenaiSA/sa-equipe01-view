@@ -73,4 +73,21 @@ public class CargoClient {
 		
 		return cargos;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cargo> listAllCargos(){
+		RestTemplate httpClient = builder.build();
+		
+		List<LinkedHashMap<String, Object>> response = httpClient.getForObject(
+				urlEndpoint + resource + "/findAll", List.class);
+		
+		List<Cargo> cargos = new ArrayList<Cargo>();
+		
+		for (LinkedHashMap<String, Object> item : response) {
+			Cargo cargo = mapper.convertValue(item, Cargo.class);
+			cargos.add(cargo);
+		}
+		
+		return cargos;
+	}
 }

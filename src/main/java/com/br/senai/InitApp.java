@@ -11,6 +11,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import com.br.senai.view.Tela8;
+import com.br.senai.view.TelaCadastroColaborador;
 import com.br.senai.view.TelaLogin;
 import com.br.senai.view.TelaPrincipalGestorForm;
 
@@ -22,6 +24,9 @@ public class InitApp {
 	
 	@Autowired
 	private TelaPrincipalGestorForm telinha;
+	
+	@Autowired
+	private TelaCadastroColaborador tela;
 
 	public static void main(String[] args) {
 		SpringApplicationBuilder builder = 
@@ -38,9 +43,9 @@ public class InitApp {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {							
-							login.setVisible(true);
+							//login.setVisible(true);
 							//telinha.setVisible(true);
-							
+							tela.apresentarTela();
 						} catch (Exception e) {							
 							JOptionPane.showMessageDialog(null, e.getMessage());
 						}

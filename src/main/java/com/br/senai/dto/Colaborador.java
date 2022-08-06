@@ -2,6 +2,8 @@ package com.br.senai.dto;
 
 import java.time.LocalDate;
 
+import com.br.senai.enuns.EnumPerfil;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 @Data
@@ -22,4 +24,25 @@ public class Colaborador {
     private String nomeDaMae;
 
     private Usuario usuario;
+
+    private Cargo cargo;
+    
+    public Colaborador() {
+	}
+    
+	public Colaborador(Integer id, String nomeCompleto, String cpf, LocalDate dataDeAdmissao, String rg,
+			String nomeDaMae, String login,String Senha , String cargo) {
+		super();
+		this.id = id;
+		this.nomeCompleto = nomeCompleto;
+		this.cpf = cpf;
+		this.dataDeAdmissao = dataDeAdmissao;
+		this.rg = rg;
+		this.nomeDaMae = nomeDaMae;
+		
+		this.usuario = new Usuario(nomeCompleto, login, Senha, EnumPerfil.COLABORADOR);
+		this.cargo = new Cargo();
+	}
+    
+    
 }

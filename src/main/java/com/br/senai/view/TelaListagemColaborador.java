@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumnModel;
@@ -39,7 +39,7 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	private ColaboradorClient client;
 	
 	@Autowired
-	private TelaInsercaoColaborador telaInsercaoColaborador;	
+	private TelaCadastroColaborador telaInsercaoColaborador;	
 	
 	private JTextField edtNomeCompleto;	
 	
@@ -148,7 +148,7 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				telaInsercaoColaborador.setVisible(true);
+				telaInsercaoColaborador.apresentarTela();
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
