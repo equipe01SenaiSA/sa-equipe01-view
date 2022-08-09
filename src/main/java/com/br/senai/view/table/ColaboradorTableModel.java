@@ -50,8 +50,8 @@ private static final long serialVersionUID = 1L;
 		this.colaboradores.remove(rowIndex);
 	}
 	
-	public void remover(Cargo cargo) {
-		this.colaboradores.remove(cargo);
+	public void remover(Colaborador colaborador) {
+		this.colaboradores.remove(colaborador);
 	}
 
 	@Override

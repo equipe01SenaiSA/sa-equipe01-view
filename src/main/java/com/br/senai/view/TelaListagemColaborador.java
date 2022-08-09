@@ -1,69 +1,58 @@
 package com.br.senai.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumnModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.br.senai.client.CargoClient;
-import com.br.senai.dto.Cargo;
-import com.br.senai.view.table.CargoTableModel;
+import com.br.senai.client.ColaboradorClient;
+import com.br.senai.dto.Colaborador;
+import com.br.senai.view.table.ColaboradorTableModel;
+
+
 
 @Component
-public class TelaListagemCargo extends JFrame implements Serializable {
+public class TelaListagemColaborador extends JFrame implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
 
 	@Autowired
-	private CargoClient client;
+	private ColaboradorClient client;
 	
 	@Autowired
 	@Lazy
-	private TelaInsercaoCargo telaInsercaoCargo;	
+	private TelaCadastroColaborador telaInsercaoColaborador;	
 	
-	@Autowired
-	@Lazy
-	private TelaPrincipalGestor telaPrincipalGestor;
-	
-	private JTextField edtDescricaoCurta;	
+	private JTextField edtNomeCompleto;	
 	
 	private void atualizar(JTable tabela) {
 		try {
-			String teste = edtDescricaoCurta.getText();
+			String teste = edtNomeCompleto.getText();
 			if (teste == null || teste.isBlank()) {
 				throw new IllegalArgumentException("O filtro é obrigatório.");
 			}
-			List<Cargo> cargos = client.listarPor(edtDescricaoCurta.getText());	
-			CargoTableModel model = new CargoTableModel(cargos);
+			List<Colaborador> colaboradores = client.listarPor(edtNomeCompleto.getText());	
+			ColaboradorTableModel model = new ColaboradorTableModel(colaboradores);
 			tabela.setModel(model);
 			TableColumnModel cm = tabela.getColumnModel();
 			cm.getColumn(0).setPreferredWidth(50);
@@ -74,27 +63,27 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		}
 	}
 	
-	private Cargo getCargoSelecionadoNa(JTable tabela, String msg) {
+	private Colaborador getColaboradorSelecionadoNa(JTable tabela, String msgErro) {
 		int linhaSelecionada = tabela.getSelectedRow();
 		if (linhaSelecionada < 0) {
-			throw new IllegalArgumentException(msg);
+			throw new IllegalArgumentException(msgErro);
 		}
-		CargoTableModel model = (CargoTableModel)tabela.getModel();
-		Cargo itemSelecionado = model.getPor(linhaSelecionada);
+		ColaboradorTableModel model = (ColaboradorTableModel)tabela.getModel();
+		Colaborador itemSelecionado = model.getPor(linhaSelecionada);
 		return itemSelecionado;
 	}
 	
 	private void removerRegistroDa(JTable tabela) {
 		try {
 			
-			Cargo cargoSelecionado = getCargoSelecionadoNa(tabela, "Selecione um registro na tabela para remoção");
+			Colaborador colaboradorSelecionado = getColaboradorSelecionadoNa(tabela, "Selecione um registro na tabela para remoção.");
 			
 			int opcaoSelecionada = JOptionPane.showConfirmDialog(
 					contentPane, "Deseja realmente remover?", "Remoção", JOptionPane.YES_NO_OPTION);
 			
 			if (opcaoSelecionada == JOptionPane.YES_OPTION) {			
-				this.client.excluir(cargoSelecionado);
-				((CargoTableModel)tabela.getModel()).remover(cargoSelecionado);
+				this.client.excluir(colaboradorSelecionado);
+				((ColaboradorTableModel)tabela.getModel()).remover(colaboradorSelecionado);
 				tabela.updateUI();
 			}
 			
@@ -105,8 +94,9 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	
 	private void editarRegistroDa(JTable tabela) {
 		try {		
-			Cargo registroSelecionado = getCargoSelecionadoNa(tabela, "Selecione um registro na tabela para edição");
-			this.telaInsercaoCargo.colocarEmEdicao(registroSelecionado);
+			Colaborador registroSelecionado = getColaboradorSelecionadoNa(tabela, "Selecione um registro na tabela para edição.");
+			setVisible(false);
+			telaInsercaoColaborador.setVisible(true);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, e.getMessage());
 		}
@@ -115,18 +105,9 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	public TelaListagemCargo() {
-		setTitle("Listagem de Cargo");
+	public TelaListagemColaborador() {
+		setTitle("Listagem de Colaborador");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				setVisible(false);
-				telaPrincipalGestor.setVisible(true);
-			}
-		});
-		
 		setBounds(100, 100, 450, 377);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -134,8 +115,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		
 		JLabel lblNewLabel = new JLabel("Filtro");
 		
-		edtDescricaoCurta = new JTextField();
-		edtDescricaoCurta.setColumns(10);
+		edtNomeCompleto = new JTextField();
+		edtNomeCompleto.setColumns(10);
 		
 		JTable tabela = new JTable();
 		tabela.setFillsViewportHeight(true);
@@ -169,7 +150,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				telaInsercaoCargo.setVisible(true);
+				telaInsercaoColaborador.apresentarTela();
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -190,7 +171,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 							.addComponent(btnAdicionar))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(edtDescricaoCurta, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)))
+							.addComponent(edtNomeCompleto, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -201,7 +182,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 						.addComponent(lblNewLabel)
 						.addComponent(btnAdicionar))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(edtDescricaoCurta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(edtNomeCompleto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnListar)
 					.addPreferredGap(ComponentPlacement.RELATED)

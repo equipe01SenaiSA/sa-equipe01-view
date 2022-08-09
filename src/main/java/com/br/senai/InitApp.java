@@ -8,13 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import com.br.senai.view.TelaListagemCargo;
+import com.br.senai.view.TelaLogin;
 
 @SpringBootApplication
 public class InitApp {
 	
 	@Autowired
-	private TelaListagemCargo listagemCargo;
+	private TelaLogin login;
 
 	public static void main(String[] args) {
 		SpringApplicationBuilder builder = 
@@ -31,8 +31,7 @@ public class InitApp {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {							
-							//Apresentar tela principal aqui
-							listagemCargo.setVisible(true);
+							login.setVisible(true);
 						} catch (Exception e) {							
 							JOptionPane.showMessageDialog(null, e.getMessage());
 						}

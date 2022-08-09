@@ -5,11 +5,19 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//@ToString(onlyExplicitlyIncluded = true)
 public class Cargo {
 
-	    @EqualsAndHashCode.Include
-	    private Integer id;
+	@EqualsAndHashCode.Include
+	private Integer id;
 
-	    private String descricaoCurta;
+	// @ToString.Include
+	private String descricaoCurta;
 
+	@Override
+	public String toString() {
+		return descricaoCurta;
+	}
+	
+	private String atribuicoes;
 }
