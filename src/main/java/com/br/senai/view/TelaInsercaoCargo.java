@@ -1,74 +1,132 @@
 package com.br.senai.view;
-import java.awt.EventQueue;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.br.senai.client.CargoClient;
+import com.br.senai.dto.Cargo;
+
 @Component
-public class TelaInsercaoCargo extends JFrame {
+public class TelaInsercaoCargo extends JFrame implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaInsercaoCargo frame = new TelaInsercaoCargo();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private JTextField edtDescricaoCurta;
+	private JTextField edtAtribuicoes;
+	
+	@Autowired
+	private CargoClient client;
+	
+	private Cargo cargoSalvo;
+	
+	public void colocarEmEdicao(
+			Cargo cargoSalvo) {
+		this.edtDescricaoCurta.setText(
+				cargoSalvo.getDescricaoCurta());
+		this.edtAtribuicoes.setText(
+				cargoSalvo.getAtribuicoes());
+		this.cargoSalvo = cargoSalvo;
+		setVisible(true);
 	}
+	
+	public void colocarEmInclusao() {
+		this.cargoSalvo = null;
+		this.edtDescricaoCurta.setText("");
+		this.edtAtribuicoes.setText("");
+		setVisible(true);
+	}
+
 	/**
 	 * Create the frame.
 	 */
 	public TelaInsercaoCargo() {
-		setTitle("Cargo(INSERCAO/EDICAO)-SA  SYSTEM 1.1");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setTitle("Cargo (INSERÇÃO/EDIÇÃO) - SA System 1.1");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 233);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Consultar");
-		btnNewButton.setBounds(312, 5, 117, 23);
-		contentPane.add(btnNewButton);
+		JLabel lblNewLabel = new JLabel("Descrição Curta");
 		
-		JLabel lblNewLabel = new JLabel("Descricao Curta");
-		lblNewLabel.setBounds(10, 49, 110, 23);
-		contentPane.add(lblNewLabel);
+		edtDescricaoCurta = new JTextField();
+		edtDescricaoCurta.setColumns(10);
 		
-		JLabel lblAtribuicoes = new JLabel("Atribuicoes\r\n");
-		lblAtribuicoes.setBounds(10, 103, 110, 23);
-		contentPane.add(lblAtribuicoes);
+		JLabel lblNewLabel_1 = new JLabel("Atribuições");
 		
-		textField = new JTextField();
-		textField.setBounds(10, 83, 215, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(10, 137, 242, 83);
-		contentPane.add(textField_1);
+		edtAtribuicoes = new JTextField();
+		edtAtribuicoes.setColumns(10);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(307, 211, 117, 23);
-		contentPane.add(btnSalvar);
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (cargoSalvo != null) {
+						cargoSalvo.setDescricaoCurta(
+								edtDescricaoCurta.getText());
+						cargoSalvo.setAtribuicoes(
+								edtAtribuicoes.getText());
+						client.alterar(cargoSalvo);
+						JOptionPane.showMessageDialog(contentPane, 
+								"Cargo atualizado com sucesso");
+					}else {
+						Cargo novoCargo = new Cargo();
+						novoCargo.setDescricaoCurta(edtDescricaoCurta.getText());
+						novoCargo.setAtribuicoes(edtAtribuicoes.getText());
+						cargoSalvo = client.inserir(novoCargo);
+						JOptionPane.showMessageDialog(contentPane, 
+								"Cargo inserido com sucesso");
+					}
+				}catch (Exception ex) {
+					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
+				}
+				
+			}
+		});
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addContainerGap(355, Short.MAX_VALUE)
+							.addComponent(btnSalvar))
+						.addComponent(edtAtribuicoes, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+						.addComponent(edtDescricaoCurta, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+						.addComponent(lblNewLabel)
+						.addComponent(lblNewLabel_1))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(20)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(edtDescricaoCurta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(edtAtribuicoes, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSalvar))
+		);
+		contentPane.setLayout(gl_contentPane);
 	}
 }
-

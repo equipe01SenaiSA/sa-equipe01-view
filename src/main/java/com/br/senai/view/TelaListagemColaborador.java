@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumnModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.br.senai.client.ColaboradorClient;
@@ -39,6 +40,7 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	private ColaboradorClient client;
 	
 	@Autowired
+	@Lazy
 	private TelaCadastroColaborador telaInsercaoColaborador;	
 	
 	private JTextField edtNomeCompleto;	

@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.br.senai.client.CargoClient;
@@ -44,7 +47,12 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	private CargoClient client;
 	
 	@Autowired
+	@Lazy
 	private TelaInsercaoCargo telaInsercaoCargo;	
+	
+	@Autowired
+	@Lazy
+	private TelaPrincipalGestor telaPrincipalGestor;
 	
 	private JTextField edtDescricaoCurta;	
 	
@@ -66,10 +74,10 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		}
 	}
 	
-	private Cargo getCargoSelecionadoNa(JTable tabela) {
+	private Cargo getCargoSelecionadoNa(JTable tabela, String msg) {
 		int linhaSelecionada = tabela.getSelectedRow();
 		if (linhaSelecionada < 0) {
-			throw new IllegalArgumentException("");
+			throw new IllegalArgumentException(msg);
 		}
 		CargoTableModel model = (CargoTableModel)tabela.getModel();
 		Cargo itemSelecionado = model.getPor(linhaSelecionada);
@@ -79,7 +87,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	private void removerRegistroDa(JTable tabela) {
 		try {
 			
-			Cargo cargoSelecionado = getCargoSelecionadoNa(tabela);
+			Cargo cargoSelecionado = getCargoSelecionadoNa(tabela, "Selecione um registro na tabela para remoção");
 			
 			int opcaoSelecionada = JOptionPane.showConfirmDialog(
 					contentPane, "Deseja realmente remover?", "Remoção", JOptionPane.YES_NO_OPTION);
@@ -97,9 +105,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	
 	private void editarRegistroDa(JTable tabela) {
 		try {		
-			Cargo registroSelecionado = getCargoSelecionadoNa(tabela);
-			setVisible(false);
-			telaInsercaoCargo.setVisible(true);
+			Cargo registroSelecionado = getCargoSelecionadoNa(tabela, "Selecione um registro na tabela para edição");
+			this.telaInsercaoCargo.colocarEmEdicao(registroSelecionado);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, e.getMessage());
 		}
@@ -111,6 +118,15 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	public TelaListagemCargo() {
 		setTitle("Listagem de Cargo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				telaPrincipalGestor.setVisible(true);
+			}
+		});
+		
 		setBounds(100, 100, 450, 377);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

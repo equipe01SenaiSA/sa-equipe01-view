@@ -1,5 +1,10 @@
 package com.br.senai.view;
-
+ 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+ 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -8,66 +13,66 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-
+ 
+import com.br.senai.client.LoginClient;
+ 
 @Component
 public class TelaPrincipalColaborador extends JFrame {
-
+ 
 	private static final long serialVersionUID = 1L;
-	
+ 
 	private JPanel contentPane;
-	
+ 
 	@Lazy
 	@Autowired
 	private TelaLogin telaLogin;
-
+ 
+	@Autowired
+	private TelaInsercaoColaborador telaCadastroColaborador;
+ 
+	private JTextPane txtNomeUsuarioLogado = new JTextPane();
+ 
+	public void setNomeUsuario(String nomeCompleto) {
+		this.txtNomeUsuarioLogado.setText(nomeCompleto);
+	}
+ 
 	public TelaPrincipalColaborador() {
 		setTitle("Principal (Acesso Colaborador) - SA System 1.1");
-		/*
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				setVisible(false);
-				telaLogin.setVisible(true);
-			}
-		});
-		*/
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+ 
 		JTextPane txtUsuárioLogado = new JTextPane();
 		txtUsuárioLogado.setText("Usuário Logado");
-		
-		JTextPane txtNomeUsuarioLogado = new JTextPane();
-		
+ 
 		JButton btnColaborador = new JButton("Colaborador");
-		
+		btnColaborador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				telaCadastroColaborador.setVisible(true);
+				setVisible(false);
+			}
+		});
+ 
 		JButton btnSair = new JButton("Sair");
-		
-		/*
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				telaLogin.setVisible(true);
+				setVisible(false);
 			}
 		});
-		*/
-		
-		//--Código do Boulos
-		/*
-		 * 		JButton btnTransportadoras = new JButton("Transportadoras");
-		btnTransportadoras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listagem.setVisible(true);
-			}
-		});
-		 */
-		
+			addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					setVisible(false);
+					telaLogin.setVisible(true);
+				}
+			});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

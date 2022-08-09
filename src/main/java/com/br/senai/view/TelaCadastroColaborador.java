@@ -2,7 +2,6 @@ package com.br.senai.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,7 +17,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -32,14 +30,16 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.br.senai.client.CargoClient;
+import com.br.senai.client.ColaboradorClient;
 import com.br.senai.dto.Cargo;
 import com.br.senai.dto.Colaborador;
+import com.br.senai.dto.Usuario;
+import com.br.senai.enuns.EnumPerfil;
 import com.br.senai.view.table.CargoTableModel;
+import java.awt.SystemColor;
 
 @Component
 public class TelaCadastroColaborador extends JFrame implements Serializable {
@@ -50,6 +50,9 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 
 	@Autowired
 	private CargoClient client;
+	
+	@Autowired
+	private ColaboradorClient colaboradorClient;
 	
 	@Autowired
 	private TelaInsercaoCargo telaInsercaoCargo;	
@@ -81,6 +84,10 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		this.setVisible(true);
 	}
 	
+	private void salvarColaborador(Colaborador colaborador) {
+		this.colaboradorClient.inserir(colaborador);
+	}
+	
 	private String[] getCargosDescricao() {
 		List<Cargo> allCargos = client.listAllCargos();
 		String[] descricaoCargos = new String[allCargos.size()];
@@ -102,11 +109,11 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		contentPane.setLayout(null);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBackground(SystemColor.activeCaption);
 		btnSalvar.setForeground(UIManager.getColor("Button.darkShadow"));
-		btnSalvar.setBounds(321, 238, 117, 25);
+		btnSalvar.setBounds(319, 229, 94, 25);
 		contentPane.add(btnSalvar);
-		Object
-		lblNomeCompleto = new JLabel("Nome Completo");
+		Object lblNomeCompleto = new JLabel("Nome Completo");
 //		lblNomeCompleto.setBounds(23, 12, 372, 15);
 //		contentPane.add(lblNomeCompleto);
 		
@@ -182,6 +189,10 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		cargosComboBox.setBounds(23, 174, 133, 19);
 		contentPane.add(cargosComboBox);
 		
+		JLabel lblNewLabel_1 = new JLabel("Nome Completo");
+		lblNewLabel_1.setBounds(23, 10, 208, 13);
+		contentPane.add(lblNewLabel_1);
+		
 		fdDataAdmissisao.addKeyListener(new KeyAdapter() {
 		    public void keyTyped(KeyEvent e) {
 		      char c = e.getKeyChar();
@@ -195,7 +206,33 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		    }
 		  });
 		
-//		btnSalvar.addActionListener(this::btnSalvarAction);
+		btnSalvar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Colaborador colaborador = new Colaborador();
+				
+				colaborador.setCpf(fdCPF.getText());
+				colaborador.setNomeDaMae(fdNomeDaMae.getText());
+				colaborador.setNomeCompleto(fdNomeCompleto.getText());
+				colaborador.setRg(fdRG.getText());
+				
+				String login = fdLogin.getText();
+				String senha = fdSenha.getText();
+				
+				colaborador.setUsuario(new Usuario(colaborador.getNomeCompleto(), login,senha,EnumPerfil.COLABORADOR));
+				colaborador.setCargo((Cargo) cargosComboBox.getSelectedItem());
+				try {
+					colaborador.setDataAdmissao(fdDataAdmissisao.getText());
+					JOptionPane.showMessageDialog(null, "Formato da data está incorreto ");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				salvarColaborador(colaborador);
+				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !");
+			}
+		}) ;
 //		cargosComboBox.addActionListener(this::comboBoxChange);
 	}
 }

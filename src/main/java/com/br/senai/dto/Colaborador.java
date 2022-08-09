@@ -12,23 +12,15 @@ public class Colaborador {
 	
 	@EqualsAndHashCode.Include
     private Integer id;
-
     private String nomeCompleto;
-
     private String cpf;
-
     private LocalDate dataDeAdmissao;
-
     private String rg;
-
     private String nomeDaMae;
-
     private Usuario usuario;
-
     private Cargo cargo;
     
-    public Colaborador() {
-	}
+    public Colaborador() {}
     
 	public Colaborador(Integer id, String nomeCompleto, String cpf, LocalDate dataDeAdmissao, String rg,
 			String nomeDaMae, String login,String Senha , String cargo) {
@@ -39,10 +31,13 @@ public class Colaborador {
 		this.dataDeAdmissao = dataDeAdmissao;
 		this.rg = rg;
 		this.nomeDaMae = nomeDaMae;
-		
 		this.usuario = new Usuario(nomeCompleto, login, Senha, EnumPerfil.COLABORADOR);
 		this.cargo = new Cargo();
 	}
     
+	public void setDataAdmissao(String data) throws Exception {
+		String[] ddMMyyy = data.split("/");
+		this.dataDeAdmissao=LocalDate.of(Integer.parseInt(ddMMyyy[2]), Integer.parseInt(ddMMyyy[1]), Integer.parseInt(ddMMyyy[0]));
+	}
     
 }

@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 @Component
 public class TelaPrincipalGestor extends TelaPrincipalGestorForm{
@@ -17,6 +18,10 @@ public class TelaPrincipalGestor extends TelaPrincipalGestorForm{
 	
 	@Autowired
 	TelaListagemColaborador telaListagemColaborador;
+	
+	@Autowired
+	@Lazy
+	TelaLogin telaLogin;
 
 	@Override
 	protected void btnCargosClick(ActionEvent ev) {
@@ -32,8 +37,10 @@ public class TelaPrincipalGestor extends TelaPrincipalGestorForm{
 
 	@Override
 	protected void btnSairClick(ActionEvent ev) {
+		telaLogin.setVisible(true);
 		this.setVisible(false);
 		this.dispose();
+		
 	}
 	
 	public static void main(String[] args) {
@@ -47,6 +54,11 @@ public class TelaPrincipalGestor extends TelaPrincipalGestorForm{
 				}
 			}
 		});
+	}
+
+	public void setNomeUsuario(String nomeCompleto) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

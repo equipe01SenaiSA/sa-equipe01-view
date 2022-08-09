@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.br.senai.client.LoginClient;
 import com.br.senai.dto.Login;
@@ -87,16 +88,17 @@ public class TelaLogin extends JFrame {
 					
 					loginEfetuado = loginClient.efetuarPor(login, senha);
 					
-					if (loginEfetuado == null) {
-						throw new IllegalArgumentException("errado");
-					}else if (loginEfetuado.getPerfil() == EnumPerfil.GESTOR) {
+					if (loginEfetuado.getPerfil() == EnumPerfil.GESTOR) {
 						telaPrincipalGestor.setVisible(true);
+						telaPrincipalGestor.setNomeUsuario(loginEfetuado.getNomeCompleto());
 					}else if (loginEfetuado.getPerfil() == EnumPerfil.COLABORADOR) {
 						telaPrincipalColaborador.setVisible(true);
 					}	
 
-				} catch (Exception e2) {
+				} catch (IllegalArgumentException e2) {
 					JOptionPane.showMessageDialog(contentPane, e2.getMessage());
+				}catch (HttpClientErrorException e3) {
+					JOptionPane.showMessageDialog(btnLogar, "Nome de usuário ou senha incorretos");
 				}
 			}
 		});
