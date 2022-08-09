@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.stereotype.Component;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 @Component
 //PRINCIPAL ACESSO GESTOR
@@ -26,13 +28,20 @@ public abstract class TelaPrincipalGestorForm extends JFrame {
 	protected abstract void btnColaboradoresClick(ActionEvent ev);
 	protected abstract void btnSairClick(ActionEvent ev);
 
+	protected JTextPane txtNomeUsuarioLogado = new JTextPane();
+	
+	public void setNomeUsuario(String nomeCompleto) {
+		this.txtNomeUsuarioLogado.setText(nomeCompleto);
+	}
+
 	/**
 	 * Create the frame.
 	 */
 	public TelaPrincipalGestorForm() {
 		setTitle("Principal (Acesso Gestor) - SA System 1.1");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,16 +67,14 @@ public abstract class TelaPrincipalGestorForm extends JFrame {
 		
 		
 		JLabel lblNewLabel = new JLabel("Usuário Logado");
-		lblNewLabel.setBounds(12, 226, 146, 25);
+		lblNewLabel.setBounds(10, 226, 89, 25);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblDeveExibirO = new JLabel("deve exibir o usuario logado");
-		lblDeveExibirO.setBounds(148, 225, 278, 15);
-		contentPane.add(lblDeveExibirO);
+		txtNomeUsuarioLogado.setBounds(109, 226, 315, 25);
+		contentPane.add(txtNomeUsuarioLogado);
 
 		btnSair.addActionListener(this::btnSairClick);
 		btnColaborador.addActionListener(this::btnColaboradoresClick);
 		btnCargos.addActionListener(this::btnCargosClick);
 	}
-
 }

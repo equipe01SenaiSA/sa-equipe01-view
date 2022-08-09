@@ -1,7 +1,11 @@
 package com.br.senai.view;
 
+import java.awt.Color;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 
 import javax.swing.GroupLayout;
@@ -35,6 +39,9 @@ public class TelaInsercaoCargo extends JFrame implements Serializable{
 	
 	private Cargo cargoSalvo;
 	
+	@Autowired
+	private TelaListagemCargo telaListagemCargo;
+	
 	public void colocarEmEdicao(
 			Cargo cargoSalvo) {
 		this.edtDescricaoCurta.setText(
@@ -59,6 +66,7 @@ public class TelaInsercaoCargo extends JFrame implements Serializable{
 		setTitle("Cargo (INSERÇÃO/EDIÇÃO) - SA System 1.1");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 233);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,6 +82,8 @@ public class TelaInsercaoCargo extends JFrame implements Serializable{
 		edtAtribuicoes.setColumns(10);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setForeground(Color.WHITE);
+		btnSalvar.setBackground(SystemColor.desktop);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -99,6 +109,13 @@ public class TelaInsercaoCargo extends JFrame implements Serializable{
 				
 			}
 		});
+			addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					setVisible(false);
+					telaListagemCargo.setVisible(true);
+				}
+			});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

@@ -1,6 +1,8 @@
 package com.br.senai.view;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -39,7 +41,7 @@ public class TelaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-
+asd
 	@Autowired
 	private LoginClient loginClient;
 	
@@ -57,6 +59,7 @@ public class TelaLogin extends JFrame {
 		setTitle("Login - SA System 1.1");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 420, 250);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,6 +76,8 @@ public class TelaLogin extends JFrame {
 		edtSenha = new JPasswordField();
 
 		JButton btnLogar = new JButton("Logar");
+		btnLogar.setForeground(Color.WHITE);
+		btnLogar.setBackground(SystemColor.desktop);
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -91,8 +96,11 @@ public class TelaLogin extends JFrame {
 					if (loginEfetuado.getPerfil() == EnumPerfil.GESTOR) {
 						telaPrincipalGestor.setVisible(true);
 						telaPrincipalGestor.setNomeUsuario(loginEfetuado.getNomeCompleto());
+						setVisible(false);
 					}else if (loginEfetuado.getPerfil() == EnumPerfil.COLABORADOR) {
 						telaPrincipalColaborador.setVisible(true);
+						telaPrincipalColaborador.setNomeUsuario(loginEfetuado.getNomeCompleto());
+						setVisible(false);
 					}	
 
 				} catch (IllegalArgumentException e2) {

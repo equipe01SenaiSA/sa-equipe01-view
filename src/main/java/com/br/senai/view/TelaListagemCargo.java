@@ -1,6 +1,7 @@
 package com.br.senai.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -128,6 +130,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		});
 		
 		setBounds(100, 100, 450, 377);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -141,6 +144,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		tabela.setFillsViewportHeight(true);
 		
 		JButton btnListar = new JButton("Listar");
+		btnListar.setForeground(Color.WHITE);
+		btnListar.setBackground(SystemColor.desktop);
 		btnListar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -151,6 +156,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		JScrollPane scrollPane = new JScrollPane(tabela);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setBackground(SystemColor.desktop);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarRegistroDa(tabela);
@@ -158,6 +165,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		});
 		
 		JButton btnExcluir = new JButton("Remover");
+		btnExcluir.setForeground(Color.WHITE);
+		btnExcluir.setBackground(SystemColor.desktop);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removerRegistroDa(tabela);
@@ -166,6 +175,8 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 	
 		
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setForeground(Color.WHITE);
+		btnAdicionar.setBackground(SystemColor.desktop);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);

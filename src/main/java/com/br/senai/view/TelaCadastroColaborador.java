@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +42,7 @@ import com.br.senai.dto.Usuario;
 import com.br.senai.enuns.EnumPerfil;
 import com.br.senai.view.table.CargoTableModel;
 import java.awt.SystemColor;
+import javax.swing.JPasswordField;
 
 @Component
 public class TelaCadastroColaborador extends JFrame implements Serializable {
@@ -57,6 +60,9 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 	@Autowired
 	private TelaInsercaoCargo telaInsercaoCargo;	
 	
+	@Autowired
+	private TelaListagemColaborador telaListagemColaborador;
+	
 	private JTextField edtDescricaoCurta;	
 
 	protected JTextField fdNomeCompleto;
@@ -73,6 +79,7 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 	
 	private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	protected JFormattedTextField fdDataAdmissisao = new JFormattedTextField(df);
+	private JPasswordField fdSenha2;
 	
 //	protected abstract void btnSalvarAction(ActionEvent ev);
 //	protected abstract void comboBoxChange(ActionEvent ev);
@@ -101,12 +108,20 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 	
 	public TelaCadastroColaborador() {
 		setTitle("Colaborador(EDIÇÃO)");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				telaListagemColaborador.setVisible(true);
+			}
+		});
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setBackground(SystemColor.activeCaption);
@@ -157,7 +172,7 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		lblSenha.setBounds(174, 205, 70, 15);
 		contentPane.add(lblSenha);
 		
-		fdSenha = new JTextField();
+		fdSenha = new JPasswordField();
 		fdSenha.setBounds(174, 232, 135, 19);
 		contentPane.add(fdSenha);
 		fdSenha.setColumns(10);

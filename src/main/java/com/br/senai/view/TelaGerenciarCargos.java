@@ -1,6 +1,7 @@
 package com.br.senai.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +11,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -42,6 +45,7 @@ public class TelaGerenciarCargos extends JFrame {
 	public TelaGerenciarCargos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,6 +57,8 @@ public class TelaGerenciarCargos extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.setForeground(Color.WHITE);
+		btnConsultar.setBackground(SystemColor.desktop);
 		
 		JLabel lblNewLabel_1 = new JLabel("Atribuições");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 15));
@@ -61,6 +67,8 @@ public class TelaGerenciarCargos extends JFrame {
 		textPane.setFont(new Font("Dialog", Font.BOLD, 12));
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setForeground(Color.WHITE);
+		btnSalvar.setBackground(SystemColor.desktop);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

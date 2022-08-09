@@ -1,7 +1,11 @@
 package com.br.senai.view;
 
+import java.awt.Color;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.List;
 
@@ -41,7 +45,11 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	
 	@Autowired
 	@Lazy
-	private TelaCadastroColaborador telaInsercaoColaborador;	
+	private TelaCadastroColaborador telaInsercaoColaborador;
+	
+	@Autowired
+	@Lazy
+	private TelaPrincipalGestor telaPrincipalGestor;
 	
 	private JTextField edtNomeCompleto;	
 	
@@ -109,6 +117,7 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		setTitle("Listagem de Colaborador");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 377);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -122,6 +131,8 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		tabela.setFillsViewportHeight(true);
 		
 		JButton btnListar = new JButton("Listar");
+		btnListar.setForeground(Color.WHITE);
+		btnListar.setBackground(SystemColor.desktop);
 		btnListar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -132,6 +143,8 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		JScrollPane scrollPane = new JScrollPane(tabela);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setBackground(SystemColor.desktop);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarRegistroDa(tabela);
@@ -139,6 +152,8 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		});
 		
 		JButton btnExcluir = new JButton("Remover");
+		btnExcluir.setForeground(Color.WHITE);
+		btnExcluir.setBackground(SystemColor.desktop);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removerRegistroDa(tabela);
@@ -147,10 +162,19 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 	
 		
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setForeground(Color.WHITE);
+		btnAdicionar.setBackground(SystemColor.desktop);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				telaInsercaoColaborador.apresentarTela();
+			}
+		});
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				telaPrincipalGestor.setVisible(true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

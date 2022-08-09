@@ -1,4 +1,12 @@
 package com.br.senai.view;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -8,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,16 +36,31 @@ public class TelaInsercaoColaborador extends JFrame {
 	private JTextField edtSenha;
 	private JTextField edtDataDeAdmissao;
 	
+	@Autowired
+	@Lazy
+	private TelaPrincipalColaborador telaPrincipalColaborador;
+	
 	public TelaInsercaoColaborador() {
+		
 		setTitle("Gerenciar Colaborador(Acesso Gestor) (INSERCAO/EDICAO)-SA  SYSTEM 1.1");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 559, 454);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				telaPrincipalColaborador.setVisible(true);
+			}
+		});
 		
 		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.setForeground(Color.WHITE);
+		btnConsultar.setBackground(SystemColor.desktop);
 		btnConsultar.setBounds(287, 11, 117, 23);
 		contentPane.add(btnConsultar);
 		
@@ -58,6 +83,8 @@ public class TelaInsercaoColaborador extends JFrame {
 		contentPane.add(edtCPF);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setForeground(Color.WHITE);
+		btnSalvar.setBackground(SystemColor.desktop);
 		btnSalvar.setBounds(312, 381, 117, 23);
 		contentPane.add(btnSalvar);
 		
@@ -115,5 +142,6 @@ public class TelaInsercaoColaborador extends JFrame {
 		cbCargo.setToolTipText("");
 		cbCargo.setBounds(10, 260, 159, 22);
 		contentPane.add(cbCargo);
+
 	}
 }
