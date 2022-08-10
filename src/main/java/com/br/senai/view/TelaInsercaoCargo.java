@@ -18,9 +18,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Constants.ConstantException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.br.senai.client.CargoClient;
 import com.br.senai.dto.Cargo;
@@ -94,15 +98,17 @@ public class TelaInsercaoCargo extends JFrame implements Serializable{
 								edtAtribuicoes.getText());
 						client.alterar(cargoSalvo);
 						JOptionPane.showMessageDialog(contentPane, 
-								"Cargo atualizado com sucesso");
+								"Cargo alterado com sucesso");
 					}else {
 						Cargo novoCargo = new Cargo();
 						novoCargo.setDescricaoCurta(edtDescricaoCurta.getText());
 						novoCargo.setAtribuicoes(edtAtribuicoes.getText());
-						cargoSalvo = client.inserir(novoCargo);
+						client.inserir(novoCargo);
 						JOptionPane.showMessageDialog(contentPane, 
 								"Cargo inserido com sucesso");
 					}
+				}catch (HttpClientErrorException ex) {
+					JOptionPane.showMessageDialog(contentPane, "A descrição curta é obrigatória");
 				}catch (Exception ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
 				}
