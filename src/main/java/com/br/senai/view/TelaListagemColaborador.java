@@ -36,6 +36,8 @@ import com.br.senai.view.table.ColaboradorTableModel;
 @Component
 public class TelaListagemColaborador extends JFrame implements Serializable{
 
+	private Colaborador colaboradorEditar = new Colaborador();
+	
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -104,7 +106,9 @@ public class TelaListagemColaborador extends JFrame implements Serializable{
 		try {		
 			Colaborador registroSelecionado = getColaboradorSelecionadoNa(tabela, "Selecione um registro na tabela para edição.");
 			setVisible(false);
-			telaInsercaoColaborador.setVisible(true);
+			telaInsercaoColaborador.setColaboradorEditar(registroSelecionado);
+			telaInsercaoColaborador.apresentarTela();
+			//telaInsercaoColaborador.setVisible(true);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, e.getMessage());
 		}

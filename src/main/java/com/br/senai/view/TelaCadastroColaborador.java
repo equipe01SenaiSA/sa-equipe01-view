@@ -18,6 +18,8 @@ import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -33,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import com.br.senai.client.CargoClient;
 import com.br.senai.client.ColaboradorClient;
@@ -41,13 +44,18 @@ import com.br.senai.dto.Colaborador;
 import com.br.senai.dto.Usuario;
 import com.br.senai.enuns.EnumPerfil;
 import com.br.senai.view.table.CargoTableModel;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.SystemColor;
 import javax.swing.JPasswordField;
-
 @Component
 public class TelaCadastroColaborador extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private Colaborador colaboradorEditar;
 
 	private JPanel contentPane;
 
@@ -80,6 +88,7 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 	private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	protected JFormattedTextField fdDataAdmissisao = new JFormattedTextField(df);
 	private JPasswordField fdSenha2;
+	private JLabel lblNewLabel_2;
 	
 //	protected abstract void btnSalvarAction(ActionEvent ev);
 //	protected abstract void comboBoxChange(ActionEvent ev);
@@ -89,10 +98,38 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 			cargosComboBox.addItem(cargo);
 		});	
 		this.setVisible(true);
+		carregarCamposColaboradorEditar();
+	}
+	
+	private void carregarCamposColaboradorEditar() {
+		if(colaboradorEditar!=null && colaboradorEditar.getId() != null && colaboradorEditar.getId()>0) {
+			fdNomeCompleto.setText(this.colaboradorEditar.getNomeCompleto());
+			fdCPF.setText(this.colaboradorEditar.getCpf());
+			fdRG.setText(this.colaboradorEditar.getRg());
+			fdLogin.setText(this.colaboradorEditar.getUsuario() !=null ? this.colaboradorEditar.getUsuario().getLogin() :"");
+			fdSenha.setText(this.colaboradorEditar.getUsuario() !=null ? this.colaboradorEditar.getUsuario().getSenha() :"");
+			fdNomeDaMae.setText(this.colaboradorEditar.getNomeDaMae());
+		}
+	}
+	
+	private void limparCampos() {
+		fdNomeCompleto.setText("");
+		fdCPF.setText("");
+		fdRG.setText("");
+		fdLogin.setText("");
+		fdSenha.setText("");
+		fdNomeDaMae.setText("");
 	}
 	
 	private void salvarColaborador(Colaborador colaborador) {
+		
+		//editar
+		if(colaboradorEditar!=null && colaboradorEditar.getId() != null && colaboradorEditar.getId()>0) {
+			colaborador.setId(colaboradorEditar.getId());
+		}
+		
 		this.colaboradorClient.inserir(colaborador);
+		limparCampos();
 	}
 	
 	private String[] getCargosDescricao() {
@@ -137,8 +174,8 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		contentPane.add(fdNomeCompleto);
 		fdNomeCompleto.setColumns(10);
 		
-		JLabel lblCpf = new JLabel("CPF");
-		lblCpf.setBounds(23, 61, 70, 15);
+		JLabel lblCpf = new JLabel("CPF (123.123.123-56)");
+		lblCpf.setBounds(23, 61, 144, 15);
 		contentPane.add(lblCpf);
 		
 		fdCPF = new JTextField();
@@ -146,8 +183,8 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		contentPane.add(fdCPF);
 		fdCPF.setColumns(10);
 		
-		JLabel lblRg = new JLabel("RG");
-		lblRg.setBounds(196, 61, 70, 15);
+		JLabel lblRg = new JLabel("RG (12.123.123)");
+		lblRg.setBounds(196, 61, 126, 15);
 		contentPane.add(lblRg);
 		
 		fdRG = new JTextField();
@@ -186,12 +223,12 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		lbCargo.setBounds(23, 156, 70, 15);
 		//contentPane.add(lbCargo);()
 		
-		lblDataDeAdmisso = new JLabel("Data de Admissão");
+		lblDataDeAdmisso = new JLabel("Data de Admissão (dd/MM/yyyy)");
 		lblDataDeAdmisso.setBounds(174, 156, 208, 15);
 		contentPane.add(lblDataDeAdmisso);
 		
 		fdDataAdmissisao = new JFormattedTextField();
-		fdDataAdmissisao.setBounds(174, 174, 264, 19);
+		fdDataAdmissisao.setBounds(174, 174, 252, 19);
 		contentPane.add(fdDataAdmissisao);
 		
 		JLabel lbCargos = new JLabel("Cargos");
@@ -208,6 +245,10 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		lblNewLabel_1.setBounds(23, 10, 208, 13);
 		contentPane.add(lblNewLabel_1);
 		
+		lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setBounds(277, 10, 45, 13);
+		contentPane.add(lblNewLabel_2);
+		
 		fdDataAdmissisao.addKeyListener(new KeyAdapter() {
 		    public void keyTyped(KeyEvent e) {
 		      char c = e.getKeyChar();
@@ -220,6 +261,9 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 		      }
 		    }
 		  });
+		
+		fdDataAdmissisao.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
 		
 		btnSalvar.addActionListener(new ActionListener() {
 			
@@ -239,15 +283,22 @@ public class TelaCadastroColaborador extends JFrame implements Serializable {
 				colaborador.setCargo((Cargo) cargosComboBox.getSelectedItem());
 				try {
 					colaborador.setDataAdmissao(fdDataAdmissisao.getText());
-					JOptionPane.showMessageDialog(null, "Formato da data está incorreto ");
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Formato da data está incorreto ");
 					e1.printStackTrace();
+					fdDataAdmissisao.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 				}
 				salvarColaborador(colaborador);
 				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !");
 			}
 		}) ;
 //		cargosComboBox.addActionListener(this::comboBoxChange);
+	}
+
+	public void setColaboradorEditar(Colaborador registroSelecionado) {
+		// TODO Auto-generated method stub
+		this.colaboradorEditar = new Colaborador();
+		this.colaboradorEditar=registroSelecionado;
 	}
 }
