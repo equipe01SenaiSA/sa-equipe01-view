@@ -1,0 +1,13 @@
+--INSERIR USUARIO GESTOR
+INSERT INTO public.usuarios
+(login, nome_completo, perfil, senha)
+VALUES('hugo', 'hugo', 'GESTOR', 'hugo');
+
+--Cargos
+INSERT INTO public.cargos
+(atribuicoes, descricao_curta)
+VALUES('Programador front', 'back');
+
+INSERT INTO public.cargos
+(atribuicoes, descricao_curta)
+VALUES('Programador backend', 'front');
