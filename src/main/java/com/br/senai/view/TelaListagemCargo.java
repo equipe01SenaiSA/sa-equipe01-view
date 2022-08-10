@@ -179,6 +179,7 @@ public class TelaListagemCargo extends JFrame implements Serializable {
 		btnAdicionar.setBackground(SystemColor.desktop);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				telaInsercaoCargo.colocarEmInclusao();
 				setVisible(false);
 				telaInsercaoCargo.setVisible(true);
 			}

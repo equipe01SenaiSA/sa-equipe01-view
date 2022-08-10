@@ -41,7 +41,7 @@ public class TelaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-asd
+
 	@Autowired
 	private LoginClient loginClient;
 	
