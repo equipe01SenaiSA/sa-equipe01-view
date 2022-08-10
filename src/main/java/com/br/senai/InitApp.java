@@ -12,7 +12,7 @@ import com.br.senai.view.TelaLogin;
 
 @SpringBootApplication
 public class InitApp {
-	//asd comenasduasduiasnbhisdanjihhujiasdihujsaduijhsadijosdajionsdaioj
+
 	@Autowired
 	private TelaLogin login;
 

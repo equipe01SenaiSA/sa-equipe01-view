@@ -33,7 +33,7 @@ public class TelaPrincipalColaborador extends JFrame {
 	private TelaLogin telaLogin;
 	
 	@Autowired
-	private TelaInsercaoColaborador telaCadastroColaborador;
+	private TelaCadastroColaborador telaCadastroColaborador;
 	
 	private JTextPane txtNomeUsuarioLogado = new JTextPane();
 	
